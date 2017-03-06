@@ -1,0 +1,14 @@
+* As root
+#+BEGIN_SRC 
+add-apt-repository ppa:kelleyk/emacs
+apt update
+apt install build-essential texinfo emacs25
+update-alternatives --config emacs
+#+END_SRC
+
+* As user
+#+BEGIN_SRC 
+wget -qO- https://get.haskellstack.org/ | sh
+export PATH=$PATH:~/.local/bin
+stack setup
+#+END_SRC
