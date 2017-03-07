@@ -14,8 +14,8 @@
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
-(package-refresh-contents)
-(package-install-selected-packages)
+;;(package-refresh-contents)
+;;(package-install-selected-packages)
 
 ;; Check for {tool,menu,scroll}-bars and get rid of them
 ;; all this functionality is on the keyboard
@@ -82,7 +82,7 @@
 
 (require 'desktop+)
 
-(exec-path-from-shell-initialize)
+;; (exec-path-from-shell-initialize)
 
 (global-flycheck-mode)
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
@@ -134,7 +134,7 @@
       (setq github-user user)
       (setq github-token token))
 
-(server-start) ;; startup emacsclient support
+;;(server-start) ;; startup emacsclient support
 
 ;;(type-break-mode) ;; get me to stop working once in a while
 
@@ -199,3 +199,7 @@
 (global-set-key "\C-x\C-p" 'other-window-backward)
 (global-set-key "\C-x\C-n" 'other-window)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+(setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
