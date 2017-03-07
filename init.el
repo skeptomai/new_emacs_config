@@ -1,29 +1,26 @@
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-
 ;; CUSTOM FILE
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror)
 
-(package-initialize)
-
+;; PACKAGE SETUP
 (require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")))
-
+(package-initialize)
 (package-refresh-contents)
 (package-install-selected-packages)
+
+;; setup path for tools from shell
+(if (eq system-type 'gnu/linux)
+    (exec-path-from-shell-initialize))
 
 ;; Check for {tool,menu,scroll}-bars and get rid of them
 ;; all this functionality is on the keyboard
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode tabbar-mode))
   (when (fboundp mode) (funcall mode -1)))
 
-(when (fboundp 'show-paren-mode) (show-paren-mode t))
-
+;; Speed things up by getting rid of startup screen
 (setq inhibit-startup-screen t)
 
 ;; Add time to the info bar
@@ -32,6 +29,9 @@
 ;; Blink the cursor so it's easier for my old eyes to find
 (blink-cursor-mode)
 
+;; Toggle vis of matching parens
+(show-paren-mode t)
+
 ;; NO JUNK
 ;; (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
 ;;       backup-directory-alist `((".*" . ,temporary-file-directory)))
@@ -39,26 +39,7 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat (getenv "HOME") "/emacs.d" "/backups")))))
 
-;; ;; EL-GET
-;; (add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
-;; (unless (require 'el-get nil 'noerror)
-;;   (with-current-buffer
-;;       (url-retrieve-synchronously
-;;        "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-;;     (goto-char (point-max))
-;;     (eval-print-last-sexp)))
-;; (defun el-get-sync-recipes (overlay)
-;;   (let* ((recipe-files (directory-files (locate-user-emacs-file (concat overlay "/recipes")) t "rcp"))
-;;          (recipes (mapcar 'el-get-read-from-file recipe-files)))
-;;     (mapcar (lambda (r) (add-to-list 'el-get-sources r)) recipes)
-;;     (el-get 'sync (mapcar 'el-get-source-name recipes))))
-;; (setq el-get-user-package-directory user-emacs-directory)
-
-;; EL-GET SYNC OVERLAYS
-;; (setq haskell-mode-map (make-sparse-keymap))
-;; (el-get-sync-recipes "el-get-haskell")
-;; (el-get-sync-recipes "el-get-user")
-
+;; File coding / line ending defaults
 (setq-default buffer-file-coding-system 'utf-8-unix)
 (setq eol-mnemonic-dos "(DOS)")
 (setq eol-mnemonic-unix "\\")
@@ -82,8 +63,7 @@
 
 (require 'desktop+)
 
-(exec-path-from-shell-initialize)
-
+;; Setup flycheck, but not annoying one for elisp
 (global-flycheck-mode)
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
@@ -108,6 +88,7 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
+;; Speeds up by loading folding mode only when needed
 (autoload 'folding-mode          "folding" "Folding mode" t)
 (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
@@ -134,38 +115,24 @@
       (setq github-user user)
       (setq github-token token))
 
-(server-start) ;; startup emacsclient support
+;; Haskell stuff, with stack..
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+(setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
 
-;;(type-break-mode) ;; get me to stop working once in a while
+;; Startup emacsclient support
+(server-start)
 
-(fset 'yes-or-no-p 'y-or-n-p) ;; answer 'y' instead of 'yes'
+;; answer 'y' instead of 'yes'
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; narrow-to-region is normally disabled.  I enable it
 (put 'narrow-to-region 'disabled nil)
 
-;; I have gpg2 installed here, and epa/epg are available
-(when (boundp 'epg-gpg-program) (setq epg-gpg-program "/usr/bin/gpg2"))
+;; On linux, I have gpg2 installed here, and epa/epg are available
+(if (eq system-type 'gnu/linux)
+    (when (boundp 'epg-gpg-program) (setq epg-gpg-program "/usr/bin/gpg2")))
 
-;; (let ((homedir-by-system-type
-;;        (cond
-;;          ((or (eq system-type 'cygwin)
-;;               (eq system-type 'gnu/linux))
-;;           "/home/cb")
-;;          ((eq system-type 'darwin)
-;;           "/Users/cb")
-;;          (t "c:/home/cb"))))
-;;   (defvar *home-path* (file-name-as-directory homedir-by-system-type))
-;;   (defvar *home-elisp-path* (concat *home-path* "/Projects/emacs-config"))
-;;   (load-file (expand-file-name "subdirs.el" *home-elisp-path*)))
-
-;;
-;; Global key settings
-;; This feels wrong and artificial, because it cuts across all modes and libraries
-;; which may or may not be installed.  Nonetheless, it makes finding all those
-;; weird bindings easier when debugging [skeptomai]
-;;
-
-;; (global-set-key "\C-xwf" 'confluence-get-page)
 (global-unset-key "\C-\\")
 (global-set-key "\C-xt" 'toggle-frame-fullscreen)
 (global-set-key "\C-xg" 'magit-status)
@@ -192,14 +159,6 @@
 (global-set-key "\C-cl" 'cltl)
 (global-set-key "\C-c\C-xr" 'run-ruby)
 (global-set-key "\M-g" 'grep-find)
-(global-set-key "\C-q" 'scroll-n-lines-behind)
-(global-set-key "\C-z" 'scroll-n-lines-ahead)
 (global-set-key "\C-x\C-q" 'quoted-insert)
-(global-set-key "\C-x\C-g" 'goto-line)
-(global-set-key "\C-x\C-p" 'other-window-backward)
 (global-set-key "\C-x\C-n" 'other-window)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
-
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-(setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
