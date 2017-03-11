@@ -3,12 +3,12 @@
 (load custom-file 'noerror)
 
 ;; PACKAGE SETUP
-(require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("melpa-stable" . "http://stable.melpa.org/packages/")))
+        ("melpa-stable" . "http://stable.melpa.org/packages/")
+        ("marmalade" . "http://marmalade-repo.org/packages/")))
 (package-initialize)
-(package-refresh-contents)
+(package-refresh-contents t)
 (package-install-selected-packages)
 
 ;; setup path for tools from shell
@@ -32,12 +32,13 @@
 ;; Toggle vis of matching parens
 (show-paren-mode t)
 
+;; Try making company mode global..
+(global-company-mode)
+
 ;; NO JUNK
-;; (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
-;;       backup-directory-alist `((".*" . ,temporary-file-directory)))
-;; Set directory for backup files
-(setq backup-directory-alist `(("." . ,(expand-file-name
-                                        (concat (getenv "HOME") "/emacs.d" "/backups")))))
+(defconst backup-dir (expand-file-name (concat (getenv "HOME") "/.emacs.d" "/backups")))
+(setq auto-save-file-name-transforms `((".*" ,backup-dir t))
+       backup-directory-alist `((".*" . ,backup-dir)))
 
 ;; File coding / line ending defaults
 (setq-default buffer-file-coding-system 'utf-8-unix)
@@ -116,9 +117,15 @@
       (setq github-token token))
 
 ;; Haskell stuff, with stack..
+(autoload 'ghc-init "ghc" nil t)
+(autoload 'ghc-debug "ghc" nil t)
+
+(setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-(setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
+(add-to-list 'company-backends 'company-ghc)
+(add-hook 'haskell-mode-hook 'company-ghc)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 
 ;; Startup emacsclient support
 (server-start)
@@ -133,6 +140,7 @@
 (if (eq system-type 'gnu/linux)
     (when (boundp 'epg-gpg-program) (setq epg-gpg-program "/usr/bin/gpg2")))
 
+;; LOTS O' KEY BINDINGS
 (global-unset-key "\C-\\")
 (global-set-key "\C-xt" 'toggle-frame-fullscreen)
 (global-set-key "\C-xg" 'magit-status)
