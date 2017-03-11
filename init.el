@@ -130,8 +130,7 @@
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
 ;; Startup emacsclient support
-(if (eq system-type 'gnu/linux)
-    (server-start))
+(server-start)
 
 ;; answer 'y' instead of 'yes'
 (fset 'yes-or-no-p 'y-or-n-p)
