@@ -33,7 +33,10 @@
 (show-paren-mode t)
 
 ;; Try making company mode global..
+(require 'company)
 (global-company-mode)
+(add-to-list 'company-backends 'company-ghc)
+(custom-set-variables '(company-ghc-show-info t))
 
 ;; NO JUNK
 (defconst backup-dir (expand-file-name (concat (getenv "HOME") "/.emacs.d" "/backups")))
@@ -121,11 +124,12 @@
 (autoload 'ghc-debug "ghc" nil t)
 
 (setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-(add-to-list 'company-backends 'company-ghc)
-(add-hook 'haskell-mode-hook 'company-ghc)
+
 (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+;;(add-hook 'haskell-mode-hook 'company-ghc)
+
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
 ;; Startup emacsclient support
 (if (eq system-type 'gnu/linux)
