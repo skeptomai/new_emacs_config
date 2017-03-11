@@ -129,6 +129,10 @@
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
+;; Go stuff
+
+(add-hook 'before-save-hook 'gofmt-before-save)
+
 ;; Startup emacsclient support
 (server-start)
 
