@@ -126,8 +126,6 @@
 (setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
 
 (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-;;(add-hook 'haskell-mode-hook 'company-ghc)
-
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
