@@ -36,6 +36,7 @@
 (require 'company)
 (global-company-mode)
 (add-to-list 'company-backends 'company-ghc)
+(add-to-list 'company-backends 'company-go)
 (custom-set-variables '(company-ghc-show-info t))
 
 ;; NO JUNK
@@ -130,7 +131,8 @@
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
 ;; Go stuff
-
+(setenv "GOPATH" (expand-file-name (concat (getenv "HOME") "/Projects/gopath")))
+(setenv "GOROOT" "/usr/local/go")
 (add-hook 'before-save-hook 'gofmt-before-save)
 
 ;; Startup emacsclient support
