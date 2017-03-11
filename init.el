@@ -128,7 +128,8 @@
 (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 
 ;; Startup emacsclient support
-(server-start)
+(if (eq system-type 'gnu/linux)
+    (server-start))
 
 ;; answer 'y' instead of 'yes'
 (fset 'yes-or-no-p 'y-or-n-p)
