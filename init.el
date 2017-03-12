@@ -1,8 +1,11 @@
-;; CUSTOM FILE
+;; Speed things up by getting rid of startup screen
+(setq inhibit-startup-screen t)
+
+;; custom file
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror)
 
-;; PACKAGE SETUP
+;; package setup
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")
@@ -11,7 +14,7 @@
 (package-refresh-contents t)
 (package-install-selected-packages)
 
-;; setup path for tools from shell
+;; Setup path for tools from shell
 (if (eq system-type 'gnu/linux)
     (exec-path-from-shell-initialize))
 
@@ -19,9 +22,6 @@
 ;; all this functionality is on the keyboard
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode tabbar-mode))
   (when (fboundp mode) (funcall mode -1)))
-
-;; Speed things up by getting rid of startup screen
-(setq inhibit-startup-screen t)
 
 ;; Add time to the info bar
 (display-time-mode)
@@ -39,26 +39,30 @@
 (add-to-list 'company-backends 'company-go)
 (custom-set-variables '(company-ghc-show-info t))
 
-;; NO JUNK
+;; no junk
 (defconst backup-dir (expand-file-name (concat (getenv "HOME") "/.emacs.d" "/backups")))
 (setq auto-save-file-name-transforms `((".*" ,backup-dir t))
        backup-directory-alist `((".*" . ,backup-dir)))
 
-;; File coding / line ending defaults
+;; file coding / line ending defaults
 (setq-default buffer-file-coding-system 'utf-8-unix)
 (setq eol-mnemonic-dos "(DOS)")
 (setq eol-mnemonic-unix "\\")
 
-;; Syntax colouring, show line and column numbers in status bar
+;; syntax colouring, show line and column numbers in status bar
 (setq-default fill-column 92)
 (setq-default global-font-lock-mode t)
 (setq-default line-number-mode t)
 (setq-default column-number-mode t)
-(setq-default desktop-save-mode t)
-(setq-default desktop-save t)
 (setq-default default-left-fringe-width 0
               default-right-fringe-width 0)
 (setq-default text-scale-mode t)
+
+;; answer 'y' instead of 'yes'
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; narrow-to-region is normally disabled.  I enable it
+(put 'narrow-to-region 'disabled nil)
 
 ;; Enable recent file tracking & opening
 (recentf-mode t)
@@ -66,7 +70,10 @@
 ;; Get rid of old buffers on schedule
 (setq-default midnight-mode t)
 
+;; Setup desktop
 (require 'desktop+)
+(setq-default desktop-save-mode t)
+(setq-default desktop-save t)
 
 ;; Setup flycheck, but not annoying one for elisp
 (global-flycheck-mode)
@@ -135,18 +142,12 @@
 (setenv "GOROOT" "/usr/local/go")
 (add-hook 'before-save-hook 'gofmt-before-save)
 
-;; Startup emacsclient support
-(server-start)
-
-;; answer 'y' instead of 'yes'
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; narrow-to-region is normally disabled.  I enable it
-(put 'narrow-to-region 'disabled nil)
-
 ;; On linux, I have gpg2 installed here, and epa/epg are available
 (if (eq system-type 'gnu/linux)
     (when (boundp 'epg-gpg-program) (setq epg-gpg-program "/usr/bin/gpg2")))
+
+;; Startup emacsclient support
+(server-start)
 
 ;; LOTS O' KEY BINDINGS
 (global-unset-key "\C-\\")
