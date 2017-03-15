@@ -10,7 +10,7 @@
     ("4486ade2acbf630e78658cd6235a5c6801090c2694469a2a2b4b0e12227a64b9" default)))
  '(package-selected-packages
    (quote
-    (company-go toml-mode magit flycheck desktop+ exec-path-from-shell company company-ghc yagist oceanic-theme mustache-mode go-mode json-mode go-snippets go-autocomplete gist expand-region flycheck-haskell))))
+    (protobuf-mode company-go toml-mode magit flycheck desktop+ exec-path-from-shell company company-ghc yagist oceanic-theme mustache-mode go-mode json-mode go-snippets go-autocomplete gist expand-region flycheck-haskell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
