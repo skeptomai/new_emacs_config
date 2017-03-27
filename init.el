@@ -15,7 +15,8 @@
 (package-install-selected-packages)
 
 ;; Setup path for tools from shell
-(if (eq system-type 'gnu/linux)
+(if (or (eq system-type 'gnu/linux)
+        (eq system-type 'darwin))
     (exec-path-from-shell-initialize))
 
 ;; Check for {tool,menu,scroll}-bars and get rid of them
@@ -130,16 +131,19 @@
 ;; Haskell stuff, with stack..
 (autoload 'ghc-init "ghc" nil t)
 (autoload 'ghc-debug "ghc" nil t)
-
+;; for things like ghc-mod
+(custom-set-variables '(haskell-process-type 'stack-ghci))
 (setq haskell-process-args-stack-ghci '("--ghci-options=-ferror-spans"))
+(setq haskell-hoogle-command "hoogle")
 
-(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+(add-hook 'haskell-mode-hook (lambda () (progn (ghc-init)
+                                               (define-key haskell-mode-map "\C-ch" 'haskell-hoogle))))
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
 ;; Go stuff
 (setenv "GOPATH" (expand-file-name (concat (getenv "HOME") "/Projects/gopath")))
-(setenv "GOROOT" "/usr/local/go")
+(setenv "GOROOT" "/usr/local/opt/go/libexec")
 (add-hook 'before-save-hook 'gofmt-before-save)
 
 ;; On linux, I have gpg2 installed here, and epa/epg are available
