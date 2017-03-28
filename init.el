@@ -1,6 +1,11 @@
 ;; Speed things up by getting rid of startup screen
 (setq inhibit-startup-screen t)
 
+;; Check for {tool,menu,scroll}-bars and get rid of them
+;; all this functionality is on the keyboard
+(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode tabbar-mode))
+  (when (fboundp mode) (funcall mode -1)))
+
 ;; custom file
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror)
@@ -19,11 +24,6 @@
         (eq system-type 'darwin))
     (exec-path-from-shell-initialize))
 
-;; Check for {tool,menu,scroll}-bars and get rid of them
-;; all this functionality is on the keyboard
-(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode tabbar-mode))
-  (when (fboundp mode) (funcall mode -1)))
-
 ;; Add time to the info bar
 (display-time-mode)
 
@@ -34,11 +34,12 @@
 (show-paren-mode t)
 
 ;; Try making company mode global..
-(require 'company)
-(global-company-mode)
-(add-to-list 'company-backends 'company-ghc)
-(add-to-list 'company-backends 'company-go)
-(custom-set-variables '(company-ghc-show-info t))
+;;(require 'company)
+;;(global-company-mode)
+(add-hook 'after-init-hook (lambda () (progn (global-company-mode)
+					     (add-to-list 'company-backends 'company-ghc)
+					     (add-to-list 'company-backends 'company-go)
+					     (custom-set-variables '(company-ghc-show-info t)))))
 
 ;; no junk
 (defconst backup-dir (expand-file-name (concat (getenv "HOME") "/.emacs.d" "/backups")))
