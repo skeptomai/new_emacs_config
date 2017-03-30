@@ -130,6 +130,7 @@
       (setq github-token token))
 
 ;; Haskell stuff, with stack..
+(setq-default ghc-command "stack exec ghc-mod")
 (autoload 'ghc-init "ghc" nil t)
 (autoload 'ghc-debug "ghc" nil t)
 ;; for things like ghc-mod
