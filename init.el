@@ -115,6 +115,23 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
+;; cpp / c++ stuff
+;; https://www.emacswiki.org/emacs/CPlusPlusMode
+(c-add-style "my-style" 
+	     '("stroustrup"
+	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
+	       (c-basic-offset . 4)            ; indent by four spaces
+	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
+				   (brace-list-open . 0)
+				   (statement-case-open . +)))))
+
+(defun my-c++-mode-hook ()
+  (c-set-style "my-style")        ; use my-style defined above
+  (auto-fill-mode)         
+  (c-toggle-auto-hungry-state 1))
+
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
 ;; visual marking of regions 
 (setq-default transient-mark-mode t)
 (setq-default colon-double-space t)
