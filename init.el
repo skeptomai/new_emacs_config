@@ -130,6 +130,49 @@
   (auto-fill-mode)         
   (c-toggle-auto-hungry-state 1))
 
+;; autoinsert C/C++ header
+(define-auto-insert
+  (cons "\\.\\([Hh]\\|hh\\|hpp\\)\\'" "My C / C++ header")
+  '(nil
+    "// " (file-name-nondirectory buffer-file-name) "\n"
+    "//\n"
+    "// last-edit-by: <> \n"
+    "//\n"
+    "// Description:\n"
+    "//\n"
+    (make-string 70 ?/) "\n\n"
+    (let* ((noext (substring buffer-file-name 0 (match-beginning 0)))
+           (nopath (file-name-nondirectory noext))
+           (ident (concat (upcase nopath) "_H")))
+      (concat "#ifndef " ident "\n"
+              "#define " ident  " 1\n\n\n"
+              "\n\n#endif // " ident "\n"))
+    (make-string 70 ?/) "\n"
+    "// $Log:$\n"
+    "//\n"
+    ))
+
+;; auto insert C/C++
+(define-auto-insert
+  (cons "\\.\\([Cc]\\|cc\\|cpp\\)\\'" "My C++ implementation")
+  '(nil
+    "// " (file-name-nondirectory buffer-file-name) "\n"
+    "//\n"
+    "// last-edit-by: <> \n"
+    "// \n"
+    "// Description:\n"
+    "//\n"
+    (make-string 70 ?/) "\n\n"
+    (let* ((noext (substring buffer-file-name 0 (match-beginning 0)))
+           (nopath (file-name-nondirectory noext))
+           (ident (concat nopath ".h")))
+      (if (file-exists-p ident)
+          (concat "#include \"" ident "\"\n")))
+    (make-string 70 ?/) "\n"
+    "// $Log:$\n"
+    "//\n"
+    ))
+
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;; visual marking of regions 
