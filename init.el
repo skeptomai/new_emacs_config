@@ -122,14 +122,14 @@
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Python
-;;(elpy-enable)
-;;(setq elpy-rpc-backend "jedi")
-;; (setq python-shell-interpreter "ipython"
-;;       python-shell-interpreter-args "--simple-prompt -i")
-;;(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+(elpy-enable)
+(setq elpy-rpc-backend "jedi")
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "--simple-prompt -i")
+(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 
-;;(require 'py-autopep8)
-;;(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;; spaces instead of tabs by default
 (setq-default indent-tabs-mode nil)

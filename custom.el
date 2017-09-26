@@ -11,7 +11,7 @@
  '(haskell-process-type (quote stack-ghci))
  '(package-selected-packages
    (quote
-    (flymake-python-pyflakes find-file-in-git-repo find-file-in-project jedi company-jedi elpy json-navigator cl-lib-highlight company-irony company-irony-c-headers flycheck-irony irony yasnippet yaml-mode protobuf-mode company-go toml-mode magit flycheck desktop+ exec-path-from-shell company company-ghc yagist oceanic-theme mustache-mode go-mode json-mode go-snippets go-autocomplete gist expand-region flycheck-haskell)))
+    (py-autopep8 flymake-python-pyflakes find-file-in-git-repo find-file-in-project jedi company-jedi elpy json-navigator cl-lib-highlight company-irony company-irony-c-headers flycheck-irony irony yasnippet yaml-mode protobuf-mode company-go toml-mode magit flycheck desktop+ exec-path-from-shell company company-ghc yagist oceanic-theme mustache-mode go-mode json-mode go-snippets go-autocomplete gist expand-region flycheck-haskell)))
  '(python-check-command "/usr/local/bin/pyflakes"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
