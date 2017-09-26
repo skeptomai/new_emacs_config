@@ -10,7 +10,7 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror)
 
-;; package setup
+;;package setup
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")
@@ -34,12 +34,17 @@
 (show-paren-mode t)
 
 ;; Try making company mode global..
-;;(require 'company)
-;;(global-company-mode)
+(require 'company)
 (add-hook 'after-init-hook (lambda () (progn (global-company-mode)
 					     (add-to-list 'company-backends 'company-ghc)
 					     (add-to-list 'company-backends 'company-go)
+					     (add-to-list 'company-backends 'company-jedi)
+					     (add-to-list 'company-backends 'company-irony)
 					     (custom-set-variables '(company-ghc-show-info t)))))
+
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+;;(define-key c++-mode-map [(tab)] 'company-complete)
 
 ;; no junk
 (defconst backup-dir (expand-file-name (concat (getenv "HOME") "/.emacs.d" "/backups")))
@@ -102,6 +107,11 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
+;; org mode initialization
+(setq org-startup-indented t)
+(setq org-hide-leading-stars t)
+(setq org-startup-folded nil)
+
 ;; Speeds up by loading folding mode only when needed
 (autoload 'folding-mode          "folding" "Folding mode" t)
 (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
@@ -110,6 +120,16 @@
 ;; Make lines wrap automagically in text mode
 (add-hook 'text-mode-hook 'text-mode-hook-identify)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; Python
+;;(elpy-enable)
+;;(setq elpy-rpc-backend "jedi")
+;; (setq python-shell-interpreter "ipython"
+;;       python-shell-interpreter-args "--simple-prompt -i")
+;;(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+
+;;(require 'py-autopep8)
+;;(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;; spaces instead of tabs by default
 (setq-default indent-tabs-mode nil)
