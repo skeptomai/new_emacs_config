@@ -41,7 +41,7 @@
 					     (add-to-list 'company-backends 'company-jedi)
 					     (add-to-list 'company-backends 'company-irony)
 					     (custom-set-variables '(company-ghc-show-info t)))))
-
+(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 ;;(define-key c++-mode-map [(tab)] 'company-complete)
