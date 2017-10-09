@@ -209,6 +209,9 @@
       (setq github-user user)
       (setq github-token token))
 
+;; ROS launch files are xml
+(add-to-list 'auto-mode-alist '("\\.launch\\'" . nxml-mode))
+
 ;; Haskell stuff, with stack..
 (setq-default ghc-command "stack exec ghc-mod")
 (autoload 'ghc-init "ghc" nil t)
