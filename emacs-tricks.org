@@ -1,0 +1,58 @@
+* Widen / Narrow
+https://www.gnu.org/software/emacs/manual/html_node/emacs/Narrowing.html
+#+BEGIN_VERSE
+C-x n n
+Narrow down to between point and mark (narrow-to-region). 
+C-x n w
+Widen to make the entire buffer accessible again (widen). 
+C-x n p
+Narrow down to the current page (narrow-to-page). 
+C-x n d
+Narrow down to the current defun (narrow-to-defun).
+#+END_VERSE
+* Selective Display
+https://www.gnu.org/software/emacs/manual/html_node/emacs/Selective-Display.html
+#+BEGIN_VERSE
+To hide lines in the current buffer, type C-x $ (set-selective-display) with a numeric argument n.
+The commands C-n and C-p move across the hidden lines as if they were not there.
+To make all lines visible again, type C-x $ with no argument.
+#+END_VERSE
+* Hide / Show
+https://www.emacswiki.org/emacs/HideShow
+#+BEGIN_VERSE
+For Emacs 21:
+
+C-c @ C-M-s show all
+C-c @ C-M-h hide all
+C-c @ C-s show block
+C-c @ C-h hide block
+C-c @ C-c toggle hide/show
+#+END_VERSE
+* grep-find
+#+BEGIN_VERSE
+M-g runs the command grep-find (found in global-map), which is an interactive autoloaded
+compiled Lisp function in ‘grep.el’.
+
+It is bound to M-g.
+
+(grep-find COMMAND-ARGS)
+#+END_VERSE
+* magit-status
+* writeroom mode
+* recentf
+* ebrowse
+https://emacs.stackexchange.com/questions/3119/class-browsing-in-c
+
+To use Ebrowse:
+#+BEGIN_SRC sh
+find . -name '*.cpp' -or -name '*.h' | ebrowse
+#+END_SRC
+https://github.com/tuhdo/tuhdo.github.io/blob/master/emacs-tutor/ebrowse.org
+* clang-ctags
+#+BEGIN_SRC sh
+sudo apt-get install python-setuptools python-dev
+sudo easy_install pip
+sudo pip install pylint
+#+END_SRC
+https://github.com/drothlis/clang-ctags
+https://eli.thegreenplace.net/2011/07/03/parsing-c-in-python-with-clang
