@@ -13,8 +13,8 @@
 ;;package setup
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("melpa-stable" . "http://stable.melpa.org/packages/")
-        ("marmalade" . "http://marmalade-repo.org/packages/")))
+        ("melpa-stable" . "http://stable.melpa.org/packages/")))
+
 (package-initialize)
 (package-refresh-contents t)
 (package-install-selected-packages)
@@ -116,6 +116,17 @@
 (autoload 'folding-mode          "folding" "Folding mode" t)
 (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+
+;; Octave mode
+(autoload 'octave-mode "octave-mod" nil t)
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+(add-hook 'octave-mode-hook
+          (lambda ()
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (font-lock-mode 1)))
 
 ;; Make lines wrap automagically in text mode
 (add-hook 'text-mode-hook 'text-mode-hook-identify)
