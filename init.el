@@ -91,6 +91,7 @@
 (setq htmlize-output-type "inline-css")
 
 ;; Fix linum mode space between line numbers and text
+(require 'linum)
 (setq linum-format "%d  ")
 
 ;; I use aspell instead of ispell, installed with homebrew on OS X
@@ -104,10 +105,12 @@
 (winner-mode t)
 
 ;; better navigation
+(require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
 ;; org mode initialization
+(require 'org)
 (setq org-startup-indented t)
 (setq org-hide-leading-stars t)
 (setq org-startup-folded nil)
@@ -118,7 +121,7 @@
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
 ;; Octave mode
-(autoload 'octave-mode "octave-mod" nil t)
+(autoload 'octave-mode "octave-mode" nil t)
 (setq auto-mode-alist
       (cons '("\\.m$" . octave-mode) auto-mode-alist))
 
@@ -133,6 +136,7 @@
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Python
+(require 'elpy)
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
 (setq python-shell-interpreter "ipython"
