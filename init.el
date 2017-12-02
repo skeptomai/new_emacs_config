@@ -33,6 +33,11 @@
 ;; Toggle vis of matching parens
 (show-paren-mode t)
 
+;; Setup flycheck, but not annoying one for elisp
+(require 'flycheck)
+(global-flycheck-mode)
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+
 ;; Try making company mode global..
 (require 'company)
 (add-hook 'after-init-hook (lambda () (progn (global-company-mode)
@@ -82,13 +87,9 @@
 (setq-default desktop-save-mode t)
 (setq-default desktop-save t)
 
-;; Setup flycheck, but not annoying one for elisp
-(global-flycheck-mode)
-(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-
 ;; Generate inline-css so syntax-colored source code
 ;; is easier to cut-n-paste elsewhere
-(setq htmlize-output-type "inline-css")
+;;(setq htmlize-output-type "inline-css")
 
 ;; Fix linum mode space between line numbers and text
 (require 'linum)
@@ -121,7 +122,7 @@
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
 ;; Octave mode
-(autoload 'octave-mode "octave-mode" nil t)
+(autoload 'run-octave "octave-inf" nil t)
 (setq auto-mode-alist
       (cons '("\\.m$" . octave-mode) auto-mode-alist))
 
@@ -227,7 +228,9 @@
 ;; ROS launch files are xml
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . nxml-mode))
 
+
 ;; Haskell stuff, with stack..
+(require 'haskell)
 (setq-default ghc-command "stack exec ghc-mod")
 (autoload 'ghc-init "ghc" nil t)
 (autoload 'ghc-debug "ghc" nil t)
