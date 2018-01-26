@@ -20,8 +20,9 @@
 (package-install-selected-packages)
 
 ;; Setup path for tools from shell
-(if (or (eq system-type 'gnu/linux)
-        (eq system-type 'darwin))
+(if (and (or (eq system-type 'gnu/linux)
+             (eq system-type 'darwin))
+         (fboundp 'exec-path-from-shell-initialize))
     (exec-path-from-shell-initialize))
 
 ;; Add time to the info bar
@@ -49,6 +50,7 @@
 (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(add-hook 'compilation-mode-hook (lambda () (text-scale-decrease 1)))
 ;;(define-key c++-mode-map [(tab)] 'company-complete)
 
 ;; no junk
