@@ -6,3 +6,6 @@ backups/*
 elpa/*
 ido.last
 recentf
+srecode-map.el
+eshell/**
+irony/**
